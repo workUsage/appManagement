@@ -1,7 +1,8 @@
 // src/components/RegisterForm.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import axios from 'axios';
+import logo from '../assets/logoImage.png'
 
 function RegisterForm() {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://backendtask-ar8x.onrender.com/api/auth/register', { email, password, userType });
+      const response = await axios.post('https://appmanagement-78yk.onrender.com/api/auth/register', { email, password, userType });
       localStorage.setItem('token', response.data.token);
       if (userType === 'admin') {
         navigate('/admin');
@@ -26,7 +27,10 @@ function RegisterForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full space-y-8 bg-white shadow-md p-5">
+      <div className="w-2/5 mx-auto">
+          <img src={logo} alt="Logo" srcSet="" />
+        </div>
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Register a new account</h2>
         </div>
@@ -34,15 +38,15 @@ function RegisterForm() {
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
+              <label htmlFor="email-address" className="text-xl font-semibold">Email address</label>
               <input id="email-address" name="email" type="email" autoComplete="email" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
-            <div>
-              <label htmlFor="password" className="sr-only">Password</label>
+            <div className="py-3">
+              <label htmlFor="password" className="text-xl font-semibold">Password</label>
               <input id="password" name="password" type="password" autoComplete="new-password" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            <div>
-              <label htmlFor="user-type" className="sr-only">User Type</label>
+            <div className="py-3">
+              <label htmlFor="user-type" className="text-xl font-semibold">User Type</label>
               <select id="user-type" name="userType" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" value={userType} onChange={(e) => setUserType(e.target.value)}>
                 <option value="table">Table User</option>
                 <option value="admin">Admin</option>
@@ -56,6 +60,11 @@ function RegisterForm() {
             </button>
           </div>
         </form>
+        <div className="text-center font-semibold">
+          <p>Already have an account <Link to="/" className="text-blue-700">Sign In</Link></p>
+          
+          
+        </div>
       </div>
     </div>
   );

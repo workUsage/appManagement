@@ -87,6 +87,7 @@ function UserDashboard() {
               <tr>
                 <th className="py-2 px-4 border-b">Inward No</th>
                 <th className="py-2 px-4 border-b">Subject</th>
+                <th className="py-2 px-4 border-b">Description</th>
                 <th className="py-2 px-4 border-b">Status</th>
                 <th className="py-2 px-4 border-b">Actions</th>
               </tr>
@@ -95,10 +96,11 @@ function UserDashboard() {
               {Array.isArray(tasks) &&
                 tasks.map((task) => (
                   <tr key={task.inwardNo}>
-                    <td className="py-2 px-4 border-b">{task.inwardNo}</td>
-                    <td className="py-2 px-4 border-b">{task.subject}</td>
-                    <td className="py-2 px-4 border-b">{task.status}</td>
-                    <td className="py-2 px-4 border-b">
+                    <td className="py-2 px-4 border-b text-center">{task.inwardNo}</td>
+                    <td className="py-2 px-4 border-b text-center">{task.subject}</td>
+                    <td className="py-2 px-4 border-b text-center">{task.description}</td>
+                    <td className="py-2 px-4 border-b text-center">{task.status}</td>
+                    <td className="py-2 px-4 border-b text-center">
                       {task.status === 'pending' && (
                         <button
                           onClick={() => handleTaskAction(task.inwardNo, 'accept')}

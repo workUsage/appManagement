@@ -15,7 +15,7 @@ function AdminDashboard() {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('https://backendtask-ar8x.onrender.com/api/tasks', {
+      const response = await axios.get('https://appmanagement-78yk.onrender.com/api/tasks', {
         headers: { 'x-auth-token': localStorage.getItem('token') },
       });
       setTasks(response.data);
@@ -26,7 +26,7 @@ function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://backendtask-ar8x.onrender.com/api/auth/users', {
+      const response = await axios.get('https://appmanagement-78yk.onrender.com/api/auth/users', {
         headers: { 'x-auth-token': localStorage.getItem('token') },
       });
       setUsers(response.data);
@@ -62,7 +62,7 @@ function AdminDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-8 text-center">Admin Dashboard</h1>
       <TaskForm onTaskCreated={handleTaskCreated} users={users} />
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">All Tasks</h2>
@@ -71,6 +71,7 @@ function AdminDashboard() {
             <tr>
               <th className="py-2 px-4 border-b">Inward No</th>
               <th className="py-2 px-4 border-b">Subject</th>
+              <th className="py-2 px-4 border-b">Description</th>
               <th className="py-2 px-4 border-b">Assigned To</th>
               <th className="py-2 px-4 border-b">Status</th>
             </tr>
@@ -78,10 +79,11 @@ function AdminDashboard() {
           <tbody>
             {tasks.map((task) => (
               <tr key={task.inwardNo}>
-                <td className="py-2 px-4 border-b">{task.inwardNo}</td>
-                <td className="py-2 px-4 border-b">{task.subject}</td>
-                <td className="py-2 px-4 border-b">{task.assignedTo}</td>
-                <td className="py-2 px-4 border-b">{task.status}</td>
+                <td className="py-2 px-4 border-b text-center">{task.inwardNo}</td>
+                <td className="py-2 px-4 border-b text-center">{task.subject}</td>
+                <td className="py-2 px-4 border-b text-center">{task.description}</td>
+                <td className="py-2 px-4 border-b text-center">{task.assignedTo}</td>
+                <td className="py-2 px-4 border-b text-center">{task.status}</td>
               </tr>
             ))}
           </tbody>

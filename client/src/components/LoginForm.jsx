@@ -1,7 +1,8 @@
 // src/components/LoginForm.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import logo from '../assets/logoImage.png'
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ function LoginForm() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://backendtask-ar8x.onrender.com/api/auth/login",
+        "https://appmanagement-78yk.onrender.com/api/auth/login",
         { email, password }
       );
       localStorage.setItem("token", response.data.token);
@@ -29,8 +30,8 @@ function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white shadow-md p-5">
-        <div>
-          
+        <div className="w-2/5 mx-auto">
+          <img src={logo} alt="Logo" srcSet="" />
         </div>
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -42,7 +43,7 @@ function LoginForm() {
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email-address" className="sr-only">
+              <label htmlFor="email-address" className="text-xl font-semibold">
                 Email address
               </label>
               <input
@@ -57,8 +58,8 @@ function LoginForm() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
+            <div className="py-3">
+              <label htmlFor="password" className="text-xl font-semibold">
                 Password
               </label>
               <input
@@ -84,6 +85,12 @@ function LoginForm() {
             </button>
           </div>
         </form>
+        <hr />
+        <div className="text-center font-semibold">
+          <p>Doesn't have an account <Link to="/register" className="text-blue-700">Register</Link></p>
+          
+          
+        </div>
       </div>
     </div>
   );
