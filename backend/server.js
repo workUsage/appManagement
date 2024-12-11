@@ -6,6 +6,25 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
+const cors = require('cors');
+
+const allowedOrigins = [
+  'https://app-management-topaz.vercel.app',
+  'https://app-management-ctdlg24ms-workusages-projects.vercel.app',
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true, // If cookies or tokens are used
+  })
+);
 
 dotenv.config();
 
