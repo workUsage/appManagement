@@ -9,18 +9,18 @@ module.exports = function(io) {
   router.post('/', auth, async (req, res) => {
     try {
       const sheets = await getSheets();
-      const { inwardNo, subject, description, startDate, endDate, assignedTo } = req.body;
+      const { inwardNo, subject, description, dueDate, assignedTo } = req.body;
 
       await sheets.spreadsheets.values.append({
         spreadsheetId: process.env.GOOGLE_SHEETS_ID,
-        range: 'Tasks!A:H',
+        range: 'Tasks!A:F',
         valueInputOption: 'RAW',
         resource: {
-          values: [[inwardNo, subject, description, startDate, endDate, assignedTo, 'pending']],
+          values: [[inwardNo, subject, description, dueDate, assignedTo, 'pending']],
         },
       });
 
-      const newTask = { inwardNo, subject, description, startDate, endDate, assignedTo, status: 'pending' };
+      const newTask = { inwardNo, subject, description, dueDate, assignedTo, status: 'pending' };
       io.emit('newTask', newTask);
 
       res.json({ msg: 'Task created successfully', task: newTask });
@@ -36,17 +36,16 @@ module.exports = function(io) {
       const sheets = await getSheets();
       const response = await sheets.spreadsheets.values.get({
         spreadsheetId: process.env.GOOGLE_SHEETS_ID,
-        range: 'Tasks!A:H',
+        range: 'Tasks!A:F',
       });
       const tasks = response.data.values || [];
       res.json(tasks.map(task => ({
         inwardNo: task[0],
         subject: task[1],
         description: task[2],
-        startDate: task[3],
-        endDate: task[4],
-        assignedTo: task[5],
-        status: task[6],
+        dueDate: task[3],
+        assignedTo: task[4],
+        status: task[5],
       })));
     } catch (err) {
       console.error('Error fetching tasks:', err.message);
@@ -60,18 +59,19 @@ module.exports = function(io) {
       const sheets = await getSheets();
       const response = await sheets.spreadsheets.values.get({
         spreadsheetId: process.env.GOOGLE_SHEETS_ID,
-        range: 'Tasks!A:H',
+        range: 'Tasks!A:F',
+        
       });
       const tasks = response.data.values || [];
-      const userTasks = tasks.filter(task => task[5] === req.user.email);
+      const userTasks = tasks.filter(task => task[4] === req.user.email);
+      
       res.json(userTasks.map(task => ({
         inwardNo: task[0],
         subject: task[1],
         description: task[2],
-        startDate: task[3],
-        endDate: task[4],
-        assignedTo: task[5],
-        status: task[6],
+        dueDate: task[3],
+        assignedTo: task[4],
+        status: task[5],
       })));
     } catch (err) {
       console.error('Error fetching user tasks:', err.message);
@@ -86,7 +86,7 @@ module.exports = function(io) {
       const { inwardNo, action } = req.params;
       const response = await sheets.spreadsheets.values.get({
         spreadsheetId: process.env.GOOGLE_SHEETS_ID,
-        range: 'Tasks!A:H',
+        range: 'Tasks!A:F',
       });
       const tasks = response.data.values || [];
       const taskIndex = tasks.findIndex(task => task[0] === inwardNo);
@@ -96,17 +96,17 @@ module.exports = function(io) {
       }
 
       const task = tasks[taskIndex];
-      if (task[5] !== req.user.email) {
+      if (task[4] !== req.user.email) {
         return res.status(403).json({ msg: 'Not authorized' });
       }
 
       let newStatus;
       switch (action) {
         case 'accept':
-          newStatus = 'accepted';
+          newStatus = 'In progess';
           break;
         case 'forward':
-          task[5] = req.body.forwardTo;
+          task[4] = req.body.forwardTo;
           newStatus = 'pending';
           break;
         case 'complete':
@@ -119,11 +119,11 @@ module.exports = function(io) {
           return res.status(400).json({ msg: 'Invalid action' });
       }
 
-      task[6] = newStatus;
+      task[5] = newStatus;
 
       await sheets.spreadsheets.values.update({
         spreadsheetId: process.env.GOOGLE_SHEETS_ID,
-        range: `Tasks!A${taskIndex + 1}:H${taskIndex + 1}`,
+        range: `Tasks!A${taskIndex + 1}:F${taskIndex + 1}`,
         valueInputOption: 'RAW',
         resource: {
           values: [task],
@@ -134,10 +134,9 @@ module.exports = function(io) {
         inwardNo: task[0],
         subject: task[1],
         description: task[2],
-        startDate: task[3],
-        endDate: task[4],
-        assignedTo: task[5],
-        status: task[6],
+        dueDate: task[3],
+        assignedTo: task[4],
+        status: task[5],
       };
 
       io.emit('taskUpdated', updatedTask);

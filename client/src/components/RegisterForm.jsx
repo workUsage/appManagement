@@ -13,7 +13,7 @@ function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://appmanagement-78yk.onrender.com/api/auth/register', { email, password, userType });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, { email, password, userType });
       localStorage.setItem('token', response.data.token);
       if (userType === 'admin') {
         navigate('/admin');

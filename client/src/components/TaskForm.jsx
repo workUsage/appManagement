@@ -7,8 +7,7 @@ function TaskForm({ onTaskCreated, users }) {
     inwardNo: '',
     subject: '',
     description: '',
-    startDate: '',
-    endDate: '',
+    dueDate:'',
     assignedTo: ''
   });
 
@@ -19,15 +18,14 @@ function TaskForm({ onTaskCreated, users }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://appmanagement-78yk.onrender.com/api/tasks', task, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/tasks`, task, {
         headers: { 'x-auth-token': localStorage.getItem('token') }
       });
       setTask({
         inwardNo: '',
         subject: '',
         description: '',
-        startDate: '',
-        endDate: '',
+        dueDate:'',
         assignedTo: ''
       });
       onTaskCreated();
@@ -83,29 +81,15 @@ function TaskForm({ onTaskCreated, users }) {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startDate">
-          Start Date
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dueDate">
+        Due Date
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="startDate"
+          id="dueDate"
           type="date"
-          name="startDate"
-          value={task.startDate}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="endDate">
-          End Date
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="endDate"
-          type="date"
-          name="endDate"
-          value={task.endDate}
+          name="dueDate"
+          value={task.dueDate}
           onChange={handleChange}
           required
         />

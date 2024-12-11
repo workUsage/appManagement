@@ -15,7 +15,7 @@ function AdminDashboard() {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('https://appmanagement-78yk.onrender.com/api/tasks', {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/tasks`, {
         headers: { 'x-auth-token': localStorage.getItem('token') },
       });
       setTasks(response.data);
@@ -26,7 +26,7 @@ function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://appmanagement-78yk.onrender.com/api/auth/users', {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/users`, {
         headers: { 'x-auth-token': localStorage.getItem('token') },
       });
       setUsers(response.data);
@@ -64,8 +64,9 @@ function AdminDashboard() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-center">Admin Dashboard</h1>
       <TaskForm onTaskCreated={handleTaskCreated} users={users} />
-      <div className="mt-8">
+      <div className="mt-8  w-full">
         <h2 className="text-2xl font-bold mb-4">All Tasks</h2>
+        <div className='w-full overflow-x-scroll'>
         <table className="min-w-full bg-white">
           <thead>
             <tr>
@@ -88,6 +89,7 @@ function AdminDashboard() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
       <div className="flex flex-col md:flex-row justify-between">
         <button

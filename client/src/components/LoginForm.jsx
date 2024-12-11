@@ -13,7 +13,7 @@ function LoginForm() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://appmanagement-78yk.onrender.com/api/auth/login",
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
         { email, password }
       );
       localStorage.setItem("token", response.data.token);

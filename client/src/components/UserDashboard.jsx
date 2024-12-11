@@ -82,7 +82,8 @@ function UserDashboard() {
         {Array.isArray(tasks) && tasks.length === 0 ? (
           <p>No tasks assigned to you yet.</p>
         ) : (
-          <table className="min-w-full bg-white">
+          <div className='w-full overflow-x-scroll'>
+            <table className="min-w-full bg-white">
             <thead>
               <tr>
                 <th className="py-2 px-4 border-b">Inward No</th>
@@ -109,7 +110,7 @@ function UserDashboard() {
                           Accept
                         </button>
                       )}
-                      {task.status === 'accepted' && (
+                      {task.status === 'In progess' && (
                         <>
                           <button
                             onClick={() => handleTaskAction(task.inwardNo, 'complete')}
@@ -130,6 +131,7 @@ function UserDashboard() {
                 ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
       <button
