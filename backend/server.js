@@ -23,10 +23,11 @@ const io = socketIo(server, {
 
 // Middleware
 const allowedOrigins = [
-  // 'http://localhost:5000',
-  // 'http://localhost:5173',
+  'http://localhost:5000',
+  'http://localhost:5173',
   'https://app-management-git-main-workusages-projects.vercel.app',
-  'https://app-management-ctdlg24ms-workusages-projects.vercel.app'
+  'https://app-management-ctdlg24ms-workusages-projects.vercel.app',
+  'https://appmanagement-78yk.onrender.com'
 ];
 
 app.use(cors({
