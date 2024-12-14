@@ -27,6 +27,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'https://app-management-git-main-workusages-projects.vercel.app',
   'https://app-management-ctdlg24ms-workusages-projects.vercel.app',
+  'https://app-management-topaz.vercel.app', // Added this
   'https://appmanagement-78yk.onrender.com'
 ];
 
@@ -42,7 +43,28 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization", "x-auth-token"],
   credentials: true,
 }));
+
+// Handle preflight requests globally
+app.options('*', cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "x-auth-token"],
+  credentials: true,
+}));
+
 app.use(express.json());
+
+// Debugging origin logging
+app.use((req, res, next) => {
+  console.log('Request Origin:', req.headers.origin);
+  next();
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
