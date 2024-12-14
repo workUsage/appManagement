@@ -22,8 +22,21 @@ const io = socketIo(server, {
 });
 
 // Middleware
+const allowedOrigins = [
+  // 'http://localhost:5000',
+  // 'http://localhost:5173',
+  'https://app-management-git-main-workusages-projects.vercel.app',
+  'https://app-management-ctdlg24ms-workusages-projects.vercel.app'
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ["GET", "POST", "PUT"],
   allowedHeaders: ["Content-Type", "Authorization", "x-auth-token"],
   credentials: true,
