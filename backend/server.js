@@ -25,10 +25,10 @@ const io = socketIo(server, {
 const allowedOrigins = [
   'http://localhost:5000',
   'http://localhost:5173',
-  'https://app-management-git-main-workusages-projects.vercel.app',
+  'https://app-management-frontend-git-main-workusages-projects.vercel.app',
   'https://app-management-ctdlg24ms-workusages-projects.vercel.app',
-  'https://app-management-topaz.vercel.app', // Added this
-  'https://appmanagement-78yk.onrender.com'
+  'https://app-management-frontend.vercel.app', // Added this
+  'https://appmanagement-backend.onrender.com'
 ];
 
 app.use(cors({
