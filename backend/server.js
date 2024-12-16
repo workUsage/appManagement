@@ -28,7 +28,8 @@ const allowedOrigins = [
   'https://app-management-git-main-workusages-projects.vercel.app',
   'https://app-management-ctdlg24ms-workusages-projects.vercel.app',
   'https://app-management-topaz.vercel.app', // Added this
-  'https://appmanagement-78yk.onrender.com'
+  'https://appmanagement-78yk.onrender.com',
+  'https://taskappfrontend-d9vrna5vt-workusages-projects.vercel.app/'
 ];
 
 app.use(cors({
