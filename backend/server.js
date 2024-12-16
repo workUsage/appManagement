@@ -29,7 +29,8 @@ const allowedOrigins = [
   'https://app-management-ctdlg24ms-workusages-projects.vercel.app',
   'https://app-management-topaz.vercel.app', // Added this
   'https://appmanagement-78yk.onrender.com',
-  'https://taskappfrontend-d9vrna5vt-workusages-projects.vercel.app/'
+  'https://taskappfrontend-d9vrna5vt-workusages-projects.vercel.app/',
+  'https://taskappfrontend-chi.vercel.ap'
 ];
 
 app.use(cors({
