@@ -74,6 +74,7 @@ function AdminDashboard() {
               <th className="py-2 px-4 border-b">Subject</th>
               <th className="py-2 px-4 border-b">Description</th>
               <th className="py-2 px-4 border-b">Assigned To</th>
+              <th className="py-2 px-4 border-b">Date</th>
               <th className="py-2 px-4 border-b">Status</th>
             </tr>
           </thead>
@@ -84,6 +85,7 @@ function AdminDashboard() {
                 <td className="py-2 px-4 border-b text-center">{task.subject}</td>
                 <td className="py-2 px-4 border-b text-center">{task.description}</td>
                 <td className="py-2 px-4 border-b text-center">{task.assignedTo}</td>
+                <td className="py-2 px-4 border-b text-center">{task.dueDate}</td>
                 <td className="py-2 px-4 border-b text-center">{task.status}</td>
               </tr>
             ))}
