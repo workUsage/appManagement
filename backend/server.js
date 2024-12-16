@@ -30,7 +30,7 @@ const allowedOrigins = [
   'https://app-management-topaz.vercel.app', // Added this
   'https://appmanagement-78yk.onrender.com',
   'https://taskappfrontend-d9vrna5vt-workusages-projects.vercel.app/',
-  'https://taskappfrontend-chi.vercel.ap'
+  'https://taskappfrontend-chi.vercel.app'
 ];
 
 app.use(cors({
