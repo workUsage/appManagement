@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TaskForm from './TaskForm';
 import * as XLSX from 'xlsx';
+import { useNavigate } from 'react-router-dom';
 
 function AdminDashboard() {
   const [tasks, setTasks] = useState([]);
@@ -38,10 +39,10 @@ function AdminDashboard() {
   const handleTaskCreated = () => {
     fetchTasks();
   };
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem('token');
-    window.location.href = '/login';
+    navigate('/'); 
   };
 
   const downloadExcel = () => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 
 function UserDashboard() {
   const [tasks, setTasks] = useState([]);
@@ -64,11 +65,11 @@ function UserDashboard() {
       setError('Failed to update task. Please try again.');
     }
   };
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userEmail');
-    window.location.href = '/login';
+    navigate('/');
   };
 
   if (loading) return <div className="text-center mt-8">Loading tasks...</div>;
