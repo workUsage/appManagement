@@ -31,7 +31,8 @@ const allowedOrigins = [
   'https://appmanagement-78yk.onrender.com',
   'https://taskappfrontend-d9vrna5vt-workusages-projects.vercel.app/',
   'https://taskappfrontend-chi.vercel.app',
-  'https://taskappfrontend-qsmtlgt6a-workusages-projects.vercel.app'
+  'https://taskappfrontend-qsmtlgt6a-workusages-projects.vercel.app',
+  'https://app-management-frontend.vercel.app'
 ];
 
 app.use(cors({
