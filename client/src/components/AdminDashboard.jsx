@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 function AdminDashboard() {
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 20;
 
   useEffect(() => {
     fetchTasks();
@@ -61,6 +63,24 @@ function AdminDashboard() {
     }
   };
 
+  // Pagination logic
+  const totalPages = Math.ceil(tasks.length / rowsPerPage);
+  const paginatedTasks = tasks.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+
+  // Calculate pagination range (show only 3 page numbers)
+  let startPage = Math.max(1, currentPage - 1);
+  let endPage = Math.min(totalPages, startPage + 2);
+  if (endPage - startPage < 2) {
+    startPage = Math.max(1, endPage - 2);
+  }
+  const pageNumbers = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-center">Admin Dashboard</h1>
@@ -80,7 +100,7 @@ function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task) => (
+            {paginatedTasks.map((task) => (
               <tr key={task.inwardNo}>
                 <td className="py-2 px-4 border-b text-center">{task.inwardNo}</td>
                 <td className="py-2 px-4 border-b text-center">{task.subject}</td>
@@ -92,6 +112,32 @@ function AdminDashboard() {
             ))}
           </tbody>
         </table>
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center mt-4 space-x-2">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+          >
+            Previous
+          </button>
+          {pageNumbers.map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`px-3 py-1 rounded ${currentPage === page ? 'bg-indigo-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
         </div>
       </div>
       <div className="flex flex-col md:flex-row justify-between">

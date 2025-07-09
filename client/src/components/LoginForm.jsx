@@ -9,10 +9,14 @@ import logo from '../assets/logoImage.png'
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/login`,
@@ -25,7 +29,12 @@ function LoginForm() {
         navigate("/user");
       }
     } catch (error) {
+      setError(
+        error.response?.data?.message || "Login failed. Please try again."
+      );
       console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,6 +49,11 @@ function LoginForm() {
             Sign in to your account
           </h2>
         </div>
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative text-center mb-4">
+            {error}
+          </div>
+        )}
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" value="true" />
@@ -82,8 +96,13 @@ function LoginForm() {
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              disabled={isLoading}
             >
-              Sign in
+              {isLoading ? (
+                <span>Loading...</span>
+              ) : (
+                "Sign in"
+              )}
             </button>
           </div>
         </form>

@@ -39,14 +39,18 @@ module.exports = function(io) {
         range: 'Tasks!A:F',
       });
       const tasks = response.data.values || [];
-      res.json(tasks.map(task => ({
-        inwardNo: task[0],
-        subject: task[1],
-        description: task[2],
-        dueDate: task[3],
-        assignedTo: task[4],
-        status: task[5],
-      })));
+      res.json(
+        tasks
+          .map(task => ({
+            inwardNo: task[0],
+            subject: task[1],
+            description: task[2],
+            dueDate: task[3],
+            assignedTo: task[4],
+            status: task[5],
+          }))
+          .reverse()
+      );
     } catch (err) {
       console.error('Error fetching tasks:', err.message);
       res.status(500).send('Server error');

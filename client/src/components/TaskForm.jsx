@@ -10,6 +10,7 @@ function TaskForm({ onTaskCreated, users }) {
     dueDate:'',
     assignedTo: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setTask({ ...task, [e.target.name]: e.target.value });
@@ -17,6 +18,7 @@ function TaskForm({ onTaskCreated, users }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/tasks`, task, {
         headers: { 'x-auth-token': localStorage.getItem('token') }
@@ -31,6 +33,8 @@ function TaskForm({ onTaskCreated, users }) {
       onTaskCreated();
     } catch (error) {
       console.error('Error creating task:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -118,8 +122,9 @@ function TaskForm({ onTaskCreated, users }) {
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
+          disabled={isLoading}
         >
-          Create Task
+          {isLoading ? 'Creating...' : 'Create Task'}
         </button>
       </div>
     </form>
